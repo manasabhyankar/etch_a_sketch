@@ -1,0 +1,129 @@
+<script>
+    let main = document.querySelector('html');
+    let grid_container = document.createElement('div');
+    let clear_button = document.createElement('div');
+    let grid_colorchange_container = document.createElement('div');
+    grid_colorchange_container.style.display = 'flex';
+    //**************************************************
+    let color_changer =  document.createElement('div');
+    color_changer.style.marginLeft = '1px';
+    color_changer.style.display = 'inline block';
+    //**************************************************
+    let red_btn = document.createElement('button');
+    red_btn.textContent = 'Red';
+    red_btn.style.display = 'block';
+    red_btn.style.border = 'solid 1px';
+    red_btn.addEventListener('click', changeRed);
+    //**************************************************
+    let green_btn = document.createElement('button');
+    green_btn.textContent = 'Green'
+    green_btn.style.display = 'block';
+    green_btn.style.border = 'solid 1px';
+    green_btn.addEventListener('click', changeGreen);
+    //**************************************************
+    let blue_btn = document.createElement('button');
+    blue_btn.textContent = 'Blue';
+    blue_btn.style.display = 'block';
+    blue_btn.style.border = 'solid 1px';
+    blue_btn.addEventListener('click', changeBlue);
+    //**************************************************
+    let random_btn = document.createElement('button');
+    random_btn.textContent = 'Random color';
+    random_btn.style.display = 'block';
+    random_btn.style.border = 'solid 1px';
+    random_btn.addEventListener('click', changeRandom);
+    //**************************************************
+    color_changer.appendChild(red_btn);
+    color_changer.appendChild(green_btn);
+    color_changer.appendChild(blue_btn);
+    color_changer.appendChild(random_btn);
+    //**************************************************
+    let clear_btn = document.createElement('button');
+    clear_btn.textContent = 'Clear colors';
+    clear_btn.addEventListener('click', clearAndResize);
+    //**************************************************
+    grid_colorchange_container.appendChild(grid_container);
+    grid_colorchange_container.appendChild(color_changer);
+    main.appendChild(grid_colorchange_container);
+    // grid_container.appendChild(color_changer);
+    clear_button.appendChild(clear_btn);
+    main.appendChild(clear_button);
+    //**************************************************
+    let scroll_color = 'red';
+    //**************************************************
+    function changeRed(){
+        grid_container.childNodes.forEach((cell) => {
+            // cell.removeEventListener('mouseenter', );
+            cell.addEventListener('mouseenter', () => {
+                scroll_color = 'red';
+                cell.style.backgroundColor = scroll_color;
+            });
+        });
+    }
+    function changeGreen(){
+        grid_container.childNodes.forEach((cell) => {
+            // cell.removeEventListener('mouseenter', );
+            cell.addEventListener('mouseenter', () => {
+                scroll_color = 'green';
+                cell.style.backgroundColor = scroll_color;
+            });
+        });
+    }
+    function changeBlue(){
+        grid_container.childNodes.forEach((cell) => {
+            // cell.removeEventListener('mouseenter', );
+            cell.addEventListener('mouseenter', () => {
+                scroll_color = 'blue';
+                cell.style.backgroundColor = scroll_color;
+            });
+        });
+    }
+    function changeRandom(){
+        grid_container.childNodes.forEach((cell) => {
+            // cell.removeEventListener('mouseenter', );
+            cell.addEventListener('mouseenter', () => {
+                scroll_color = 'rgb(' + Math.floor(Math.random()*256) + ', ' + Math.floor(Math.random()*256) + ', ' + Math.floor(Math.random()*256) + ')';
+                cell.style.backgroundColor = scroll_color;
+            });
+        });
+    }
+    function initGrid(size=16){
+        grid_container.style.display = 'grid';
+        grid_container.style.backgroundColor = 'white';
+        grid_container.style.height = '500px'
+        grid_container.style.width = '500px'
+        grid_container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+        grid_container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+        grid_container.style.border = 'solid 1px';
+    }
+    function clearAndResize(){
+        grid_container.childNodes.forEach((cell) => {
+            cell.style.backgroundColor = 'white';
+        });
+        let new_size = prompt("What shall be the new size of the grid?");
+        console.log(new_size);
+        while(new_size<0 || isNaN(new_size)){
+            new_size = prompt("Please enter a positive integer.");
+        }
+        while(grid_container.firstChild){
+            grid_container.removeChild(grid_container.firstChild);
+        }
+        console.log("Cleared all child nodes.");
+        initGrid(new_size);
+        populateGrid(new_size);
+        return new_size;
+    }
+    function populateGrid(size=16){
+        for(let i=0; i<size**2; i++){
+            let div = document.createElement('div');
+            div.style.backgroundColor = 'white';
+            div.addEventListener('mouseenter', (e) => {
+                div.style.backgroundColor = 'purple';//'rgb(' + Math.floor(Math.random()*256) + ', ' + Math.floor(Math.random()*256) + ', ' + Math.floor(Math.random()*256) + ')';
+                console.log(div.style.backgroundColor);
+            });
+            grid_container.appendChild(div);        
+        }
+    }
+    initGrid();
+    populateGrid();
+</script>
